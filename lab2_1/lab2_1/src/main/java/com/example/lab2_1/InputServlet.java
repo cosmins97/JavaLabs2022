@@ -1,11 +1,10 @@
 package com.example.lab2_1;
 
 import javax.json.*;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "inputServlet")
 public class InputServlet extends HttpServlet {
+    CaptchaManager captcha = new CaptchaManager();
     static <E> void permK(List<E> p, int i, int k, ArrayList<String> list)
     {
         if(i == k)
@@ -37,6 +37,26 @@ public class InputServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
+        //captcha
+        captcha.chooseRandom();
+
+        //verify cookie
+        HttpSession session = request.getSession();
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie: cookies) {
+                String name = cookie.getName();
+                if (name.equals("selectedSize")) {
+                    session.setAttribute("selectedSize", cookie.getValue());
+                    //System.out.println(cookie.getValue());
+                }
+            }
+        }
+
+        //set attribute
+        request.setAttribute("captchaNumber", captcha.getChosenNumber());
+        request.setAttribute("captchaShape", captcha.getChosenShape());
+
         request.getRequestDispatcher("input.jsp").forward(request, response);
     }
 
@@ -44,66 +64,90 @@ public class InputServlet extends HttpServlet {
                           HttpServletResponse response) throws ServletException, IOException {
         //get word and size
         String inWord = request.getParameter("inWord");
-        int size = Integer.parseInt(request.getParameter("inSize"));
+        String sizeStr = request.getParameter("inSize");
         ArrayList<String> list = new ArrayList<String>();
 
-        List<Character> orderedList;
-        int inputLen = inWord.length();
+        int captchaAnswer = Integer.parseInt(request.getParameter("captchaAnswer"));
 
-        orderedList = inWord.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
-
-        Collections.sort(orderedList);
-
-        if(size < 0){
-            String result = "Size invalid. Must be > 0";
-            list.add(result);
+        //verify captcha
+        if(captchaAnswer != captcha.getChosenNumber()){
+            PrintWriter writer = response.getWriter();
+            String htmlRespone = "<html><h2>Wrong captcha answer. </h2><a href=\"input\"><h2>Back to form</h2></a></html>";
+            writer.println(htmlRespone);
         }
-        else {
-            if(size == 0){
-                for(int i = 1; i <= inputLen; i++){
-                    permK(orderedList, 0, i, list);
-                }
+        else{
+            //verify if size is set
+            if(sizeStr == ""){
+                ServletContext context = this.getServletContext();
+                sizeStr = context.getInitParameter("defaultSize");
             }
             else{
-                if(size > inputLen){
-                    size = inputLen;
+                Cookie categoryCookie = new Cookie("selectedSize", sizeStr);
+                response.addCookie(categoryCookie);
+            }
+
+            int size = Integer.parseInt(sizeStr);
+
+            List<Character> orderedList;
+            int inputLen = inWord.length();
+
+            orderedList = inWord.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
+
+            Collections.sort(orderedList);
+
+            if(size < 0){
+                String result = "Size invalid. Must be > 0";
+                list.add(result);
+            }
+            else {
+                if(size == 0){
+                    for(int i = 1; i <= inputLen; i++){
+                        permK(orderedList, 0, i, list);
+                    }
                 }
-                permK(orderedList, 0, size, list);
-            }
-        }
-
-        String jsonFilePath = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab2_1\\lab2_1\\records.json";
-
-        //create response
-        try{
-            WordList newWord = new WordList(inWord, size, list);
-
-            JsonObjectBuilder wordBuilder = Json.createObjectBuilder();
-            JsonArrayBuilder listBuilder = Json.createArrayBuilder();
-
-            wordBuilder.add("originalWord", newWord.getOriginalWord());
-            wordBuilder.add("size", newWord.getSize());
-
-            for(int i = 0; i < list.size(); i++){
-                listBuilder.add(list.get(i));
+                else{
+                    if(size > inputLen){
+                        size = inputLen;
+                    }
+                    permK(orderedList, 0, size, list);
+                }
             }
 
-            wordBuilder.add("words", listBuilder);
+            String jsonFilePath = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab2_1\\lab2_1\\records.json";
 
-            JsonObject newWordObject = wordBuilder.build();
+            //create response
+            try{
+                WordList newWord = new WordList(inWord, size, list);
 
-            //write to file
-            OutputStream os = new FileOutputStream(jsonFilePath);
-            JsonWriter jsonWriter = Json.createWriter(os);
+                JsonObjectBuilder wordBuilder = Json.createObjectBuilder();
+                JsonArrayBuilder listBuilder = Json.createArrayBuilder();
 
-            jsonWriter.writeObject(newWordObject);
-            jsonWriter.close();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+                wordBuilder.add("originalWord", newWord.getOriginalWord());
+                wordBuilder.add("size", newWord.getSize());
+
+                for(int i = 0; i < list.size(); i++){
+                    listBuilder.add(list.get(i));
+                }
+
+                wordBuilder.add("words", listBuilder);
+
+                JsonObject newWordObject = wordBuilder.build();
+
+                //write to file
+                OutputStream os = new FileOutputStream(jsonFilePath);
+                JsonWriter jsonWriter = Json.createWriter(os);
+
+                jsonWriter.writeObject(newWordObject);
+                jsonWriter.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            response.sendRedirect("result");
         }
 
-        response.sendRedirect("result");
+
 
         //write in log
 //        try {

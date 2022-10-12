@@ -5,8 +5,8 @@
          version="4.0">
 
     <context-param>
-        <param-name>defaultCategory</param-name>
-        <param-value>fruit</param-value>
+        <param-name>defaultSize</param-name>
+        <param-value>0</param-value>
     </context-param>
 
     <servlet>
