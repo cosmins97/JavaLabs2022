@@ -18,12 +18,37 @@ import java.util.stream.Collectors;
 @WebServlet(name = "inputServlet")
 public class InputServlet extends HttpServlet {
     CaptchaManager captcha = new CaptchaManager();
+
+    static String dictionaryFile = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab2_1\\lab2_1\\en_valid_words.txt";
+
+    static boolean isValidWord(String word){
+        try (BufferedReader br = new BufferedReader(new FileReader(dictionaryFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(word.equals(line.toLowerCase())){
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
     static <E> void permK(List<E> p, int i, int k, ArrayList<String> list)
     {
         if(i == k)
         {
-            String newWord = "[" + p.subList(0, k) + "]";
-            list.add(newWord);
+            StringBuilder sb = new StringBuilder();
+            for (E ch : p.subList(0, k)) {
+                sb.append(ch);
+            }
+            String string = sb.toString();
+
+            if(isValidWord(string)) {
+                list.add(string);
+            }
+
             return;
         }
 

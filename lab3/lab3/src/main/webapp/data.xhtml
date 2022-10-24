@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+   <title>Data Page</title>
+</h:head>
+<h:body>
+   <h:outputText value="Data Page"
+                 style="font-size: xx-large"/>
+   <div class="card">
+      <p:commandButton value="Add City" type="button" icon="pi pi-external-link" onclick="PF('dlg2').show()"/>
+   </div>
+
+   <p:dialog header="Add City" widgetVar="dlg2" minHeight="40" width="350" showEffect="fade" modal="true">
+      <form name="inputForm" method="post" action="addCity">
+         <h3>Name: <input type="text" name="city_name"/></h3>
+         <br/>
+         <h2>Id: <input type="number" name="city_id"/></h2>
+         <br/>
+         <input type="submit" value="Submit" />
+      </form>
+   </p:dialog>
+
+   <h:form>
+      <div class="card">
+         <p:dataTable var="city" value="#{cityView.cities}" lazy="true">
+            <p:column headerText="Id">
+               <h:outputText value="#{city.id}" />
+            </p:column>
+
+            <p:column headerText="Name">
+               <h:outputText value="#{city.name}" />
+            </p:column>
+         </p:dataTable>
+      </div>
+   </h:form>
+</h:body>
+
+</html>

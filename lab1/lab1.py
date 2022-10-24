@@ -2,7 +2,7 @@ import requests
 
 url = 'http://localhost:8080/lab1_war_exploded/lab1Servlet'
 input = {'inWord': 'cherry',
-         'inSize': 10}
+         'inSize': 0}
 
 response_html = requests.post(url, data = input)
 

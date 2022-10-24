@@ -5,10 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -17,6 +14,22 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "lab1Servlet", value = "/lab1Servlet")
 public class lab1Servlet extends HttpServlet {
+    static String dictionaryFile = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab1\\en_valid_words.txt";
+
+    static boolean isValidWord(String word){
+        try (BufferedReader br = new BufferedReader(new FileReader(dictionaryFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(word.equals(line.toLowerCase())){
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
     static <E> void permK(List<E> p, int i, int k, PrintWriter writer)
     {
         if(i == k)
@@ -87,7 +100,7 @@ public class lab1Servlet extends HttpServlet {
 
         //write in log
         try {
-            String filePath = "E:\\facultate\\M2\\java2\\lab1\\lab1\\logFile.txt";
+            String filePath = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab1\\logFile.txt";
             File myObj = new File(filePath);
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
