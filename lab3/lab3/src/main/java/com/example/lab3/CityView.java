@@ -1,6 +1,7 @@
 package com.example.lab3;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,6 +12,9 @@ import java.util.List;
 @ViewScoped
 public class CityView implements Serializable {
     private List<City> cities;
+
+    private String newCityName;
+    private int newCityId;
 
     @Inject
     private CityService service;
@@ -26,5 +30,25 @@ public class CityView implements Serializable {
 
     public void setService(CityService service) {
         this.service = service;
+    }
+
+    public String getNewCityName() {
+        return newCityName;
+    }
+
+    public void addNewCity(){
+        service.addNewCity(this.getNewCityName(), this.getNewCityId());
+    }
+
+    public void setNewCityName(String newCityName) {
+        this.newCityName = newCityName;
+    }
+
+    public int getNewCityId() {
+        return newCityId;
+    }
+
+    public void setNewCityId(int newCityId) {
+        this.newCityId = newCityId;
     }
 }

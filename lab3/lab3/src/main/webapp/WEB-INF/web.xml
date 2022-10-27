@@ -30,9 +30,21 @@
         <url-pattern>/addCity</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>addTeamServlet</servlet-name>
+        <servlet-class>com.example.lab3.AddTeamServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>addTeamServlet</servlet-name>
+        <url-pattern>/addTeam</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+
+
 
 </web-app>

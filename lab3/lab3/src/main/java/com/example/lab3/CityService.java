@@ -14,17 +14,11 @@ public class CityService {
 
     private List<City> cities;
 
-    @PostConstruct
-    public void init(){
-        cities = new ArrayList<>();
-        String loginUser = "postgres";
-        String loginPasswd = "postgressqljava";
-        String loginUrl = "jdbc:postgresql://localhost:5432/postgres";
+    Connection dbcon;
 
+    private void updateList(){
         try{
-            Class.forName("org.postgresql.Driver");
-            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-
+            cities = new ArrayList<>();
             Statement stmt = dbcon.createStatement();
 
             ResultSet rs = stmt.executeQuery( "select * from cities ;" );
@@ -33,20 +27,47 @@ public class CityService {
                 int cityId = rs.getInt("id");
                 String cityName = rs.getString("name");
 
-                System.out.println(cityId + " " + cityName);
-
                 cities.add(new City(cityId, cityName));
             }
 
         }catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
+    }
 
+    @PostConstruct
+    public void init(){
+        cities = new ArrayList<>();
+
+        String loginUser = "postgres";
+        String loginPasswd = "postgressqljava";
+        String loginUrl = "jdbc:postgresql://localhost:5432/postgres";
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+        } catch (SQLException | ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public List<City> getCities(){
+        updateList();
         return new ArrayList<>(cities);
+    }
+
+    public void addNewCity(String newCityName, int neeCityId){
+        try {
+            Statement statement = dbcon.createStatement();
+
+            String query = "INSERT INTO cities(Id, Name) VALUES (";
+            query +=       neeCityId + ", '";
+            query +=       newCityName + "')";
+
+            // Perform the query
+            int rs = statement.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

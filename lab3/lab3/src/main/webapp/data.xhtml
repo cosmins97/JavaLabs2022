@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
    <title>Data Page</title>
@@ -11,33 +12,93 @@
 <h:body>
    <h:outputText value="Data Page"
                  style="font-size: xx-large"/>
+   <br/>
+   <br/>
+
    <div class="card">
-      <p:commandButton value="Add City" type="button" icon="pi pi-external-link" onclick="PF('dlg2').show()"/>
+      <p:commandButton value="Add City" type="button" icon="pi pi-external-link" onclick="PF('dlg1').show()"/>
+   </div>
+   <br/>
+   <br/>
+   <div class="card">
+      <p:commandButton value="Add Team" type="button" icon="pi pi-external-link" onclick="PF('dlg2').show()"/>
    </div>
 
-   <p:dialog header="Add City" widgetVar="dlg2" minHeight="40" width="350" showEffect="fade" modal="true">
-      <form name="inputForm" method="post" action="addCity">
-         <h3>Name: <input type="text" name="city_name"/></h3>
+   <p:dialog header="Add City" widgetVar="dlg1" minHeight="40" width="350" showEffect="fade" modal="true">
+      <h:form>
+         <h3>Name: </h3> <p:inputText id="float-input1" value="#{cityView.newCityName}"/>
          <br/>
-         <h2>Id: <input type="number" name="city_id"/></h2>
+         <h3>Id: </h3> <p:inputNumber id="input91" value="#{cityView.newCityId}" minValue="1" decimalPlaces="0" />
          <br/>
-         <input type="submit" value="Submit" />
-      </form>
+         <br/>
+         <p:commandButton value="Submit" icon="pi pi-check" actionListener="#{cityView.addNewCity}" action="data.xhtml?faces-redirect=true" />
+      </h:form>
+   </p:dialog>
+
+   <p:dialog header="Add Team" widgetVar="dlg2" minHeight="40" width="350" showEffect="fade" modal="true">
+      <h:form>
+         <h3>Name:</h3> <p:inputText id="float-input" value="#{teamView.newTeamName}"/>
+         <br/>
+         <h3>Id: </h3><p:inputNumber id="input9" value="#{teamView.newTeamId}" minValue="1" decimalPlaces="0" />
+         <br/>
+         <h3>Founding Date:</h3> <p:datePicker id="inline" value="#{teamView.newTeamDate}"/>
+         <br/>
+         <h3>City:</h3>
+            <div class="field col-12 md:col-4">
+             <p:selectOneMenu id="option" value="#{teamView.newTeamCityId}">
+                <f:selectItems value="#{cityView.cities}" var="city"
+                            itemLabel="#{city.name}" itemValue="#{city.id}" />
+             </p:selectOneMenu>
+            </div>
+         <br/>
+         <p:commandButton value="Submit" icon="pi pi-check" actionListener="#{teamView.addNewTeam}" action="data.xhtml?faces-redirect=true" />
+      </h:form>
    </p:dialog>
 
    <h:form>
       <div class="card">
-         <p:dataTable var="city" value="#{cityView.cities}" lazy="true">
+         <p:dataTable var="team" value="#{teamView.teams}" lazy="true">
             <p:column headerText="Id">
-               <h:outputText value="#{city.id}" />
+               <h:outputText value="#{team.id}" />
             </p:column>
 
             <p:column headerText="Name">
-               <h:outputText value="#{city.name}" />
+               <h:outputText value="#{team.name}" />
+            </p:column>
+
+            <p:column headerText="Founding Date">
+               <h:outputText value="#{team.foundingDate}" />
+            </p:column>
+
+            <p:column headerText="City">
+               <h:outputText value="#{team.city.name}" />
+            </p:column>
+
+            <p:column headerText="Edit Team">
+               <p:commandButton value="Edit" icon="pi pi-external-link" onclick="PF('dlg3').show()"
+                                 actionListener="#{teamView.editTeam(team.id)}"/>
             </p:column>
          </p:dataTable>
       </div>
    </h:form>
+
+   <p:dialog header="Edit Team" widgetVar="dlg3" minHeight="40" width="350" showEffect="fade" modal="true">
+      <h:form>
+         <h3>Name:</h3> <p:inputText id="float-input2" value="#{teamView.editName}"/>
+         <br/>
+         <h3>Founding Date:</h3> <p:datePicker id="inline2" value="#{teamView.editDate}"/>
+         <br/>
+         <h3>City:</h3>
+         <div class="field col-12 md:col-4">
+            <p:selectOneMenu id="option2" value="#{teamView.editCity}">
+               <f:selectItems value="#{cityView.cities}" var="city"
+                              itemLabel="#{city.name}" itemValue="#{city.id}" />
+            </p:selectOneMenu>
+         </div>
+         <br/>
+         <p:commandButton value="Save" icon="pi pi-check" actionListener="#{teamView.saveEdit}" action="data.xhtml?faces-redirect=true" />
+      </h:form>
+   </p:dialog>
 </h:body>
 
 </html>
