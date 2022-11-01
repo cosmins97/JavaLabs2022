@@ -1,0 +1,27 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html">
+   <p:dataTable id = "#{id}" var="team" value="#{value}" lazy="true">
+      <p:column headerText="Id">
+         <h:outputText value="#{team.id}" />
+      </p:column>
+
+      <p:column headerText="Name">
+         <h:outputText value="#{team.name}" />
+      </p:column>
+
+      <p:column headerText="Founding Date">
+         <h:outputText value="#{team.foundingDate}" />
+      </p:column>
+
+      <p:column headerText="City">
+         <h:outputText value="#{team.city.name}" />
+      </p:column>
+
+      <p:column headerText="Edit Team">
+         <p:commandButton value="Edit" icon="pi pi-external-link" onclick="PF('dlg3').show()"
+                          actionListener="#{teamView.editTeam(team.id)}"/>
+      </p:column>
+   </p:dataTable>
+</ui:composition>

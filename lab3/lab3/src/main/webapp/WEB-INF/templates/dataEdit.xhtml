@@ -1,0 +1,23 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:dialog header="Edit Team" widgetVar="dlg3" minHeight="40" width="350" showEffect="fade" modal="true">
+        <h:form>
+            <h3>Name:</h3> <p:inputText id="float-input2" value="#{teamView.editName}"/>
+            <br/>
+            <h3>Founding Date:</h3> <p:datePicker id="inline2" value="#{teamView.editDate}"/>
+            <br/>
+            <h3>City:</h3>
+            <div class="field col-12 md:col-4">
+                <p:selectOneMenu id="option2" value="#{teamView.editCity}">
+                    <f:selectItems value="#{cityView.cities}" var="city"
+                                   itemLabel="#{city.name}" itemValue="#{city.id}" />
+                </p:selectOneMenu>
+            </div>
+            <br/>
+            <p:commandButton value="Save" icon="pi pi-check" actionListener="#{teamView.saveEdit}" action="data.xhtml?faces-redirect=true" />
+        </h:form>
+    </p:dialog>
+</ui:composition>

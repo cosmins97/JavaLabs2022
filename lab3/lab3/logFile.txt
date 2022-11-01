@@ -1,0 +1,84 @@
+Name: t
+Id: 1
+Founding: 2022-10-04
+CityId: null
+
+
+Name: t
+Id: 6
+Founding: Tue Oct 11 00:00:00 EEST 2022
+CityId: 5
+
+
+Name: Team1
+Id: 1
+Founding: Tue Oct 11 00:00:00 EEST 2022
+CityId: 8
+
+
+Name: Team1
+Id: 1
+Founding: Wed Oct 12 00:00:00 EEST 2022
+CityId: 2
+
+
+Name: Team1
+Id: 1
+Founding: Tue Oct 11 00:00:00 EEST 2022
+CityId: 8
+
+
+Name: Team2
+Id: 2
+Founding: Tue Jul 12 00:00:00 EEST 2022
+CityId: 1
+
+
+Name: Team3
+Id: 3
+Founding: Wed Apr 13 00:00:00 EEST 2022
+CityId: 10
+
+
+Name: Team4
+Id: 4
+Founding: Wed Mar 09 00:00:00 EET 2022
+CityId: 5
+
+
+Name: Team5
+Id: 5
+Founding: Mon Sep 12 00:00:00 EEST 2022
+CityId: 8
+
+
+Name: Team6
+Id: 6
+Founding: Mon Jul 11 00:00:00 EEST 2022
+CityId: 10
+
+
+Name: Team7
+Id: 7
+Founding: Sun Oct 23 00:00:00 EEST 2022
+CityId: 5
+
+
+Name: Team4
+Id: 4
+Founding: Sun Oct 02 00:00:00 EEST 2022
+CityId: 13
+
+
+Name: Team5
+Id: 5
+Founding: Sun Oct 02 00:00:00 EEST 2022
+CityId: 8
+
+
+update teams set name = 'T1', founding_date = '2022-10-04', city_id = 5 where id = 0;
+
+update teams set name = 'T1', founding_date = '2022-10-11', city_id = 5 where id = 1;
+
+update teams set name = 'Team22', founding_date = '2022-10-04', city_id = 13 where id = 2;
+
