@@ -82,3 +82,9 @@ update teams set name = 'T1', founding_date = '2022-10-11', city_id = 5 where id
 
 update teams set name = 'Team22', founding_date = '2022-10-04', city_id = 13 where id = 2;
 
+Name: team6
+Id: 6
+Founding: Tue Nov 01 00:00:00 EET 2022
+CityId: 5
+
+

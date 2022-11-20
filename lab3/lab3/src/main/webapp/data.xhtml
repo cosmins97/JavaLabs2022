@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
    <title>Data Page</title>
@@ -57,30 +58,17 @@
 
    <h:form>
       <div class="card">
-         <p:dataTable var="team" value="#{teamView.teams}" lazy="true">
-            <p:column headerText="Id">
-               <h:outputText value="#{team.id}" />
-            </p:column>
-
-            <p:column headerText="Name">
-               <h:outputText value="#{team.name}" />
-            </p:column>
-
-            <p:column headerText="Founding Date">
-               <h:outputText value="#{team.foundingDate}" />
-            </p:column>
-
-            <p:column headerText="City">
-               <h:outputText value="#{team.city.name}" />
-            </p:column>
-
-            <p:column headerText="Edit Team">
-               <p:commandButton value="Edit" icon="pi pi-external-link" onclick="PF('dlg3').show()"
-                                 actionListener="#{teamView.editTeam(team.id)}"/>
-            </p:column>
-         </p:dataTable>
+         <ui:include src="/WEB-INF/templates/dataView.xhtml">
+            <ui:param name="id" value="teamsTable"/>
+            <ui:param name="value" value="#{teamView.teams}"/>
+         </ui:include>
       </div>
    </h:form>
+
+   <ui:include src="/WEB-INF/templates/dataEdit.xhtml">
+      <ui:param name="id" value="teamsTable"/>
+      <ui:param name="value" value="#{teamView.teams}"/>
+   </ui:include>
 
    <p:dialog header="Edit Team" widgetVar="dlg3" minHeight="40" width="350" showEffect="fade" modal="true">
       <h:form>

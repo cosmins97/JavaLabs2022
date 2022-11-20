@@ -1,5 +1,7 @@
 package com.example.lab3;
 
+import com.example.lab3.entities.CityEntity;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
@@ -11,7 +13,7 @@ import java.util.List;
 @Named("cityView")
 @ViewScoped
 public class CityView implements Serializable {
-    private List<City> cities;
+    private List<CityEntity> cities;
 
     private String newCityName;
     private int newCityId;
@@ -24,7 +26,7 @@ public class CityView implements Serializable {
         cities = service.getCities();
     }
 
-    public List<City> getCities() {
+    public List<CityEntity> getCities() {
         return cities;
     }
 
