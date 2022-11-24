@@ -22,6 +22,12 @@ public class PlayerView implements Serializable {
     private int SearchTeamId;
     private int SearchMinAge;
     private int SearchMaxAge;
+
+    private boolean fnCheck;
+    private boolean lnCheck;
+    private boolean tmCheck;
+    private boolean minCheck;
+    private boolean maxCheck;
     @Inject
     private PlayerService service;
 
@@ -31,7 +37,8 @@ public class PlayerView implements Serializable {
     }
 
     public void applyFilter(){
-        service.setFilter(searchFirstName, searchLastName, SearchTeamId, SearchMinAge, SearchMaxAge);
+        service.setFilter(searchFirstName, searchLastName, SearchTeamId, SearchMinAge, SearchMaxAge,
+                fnCheck, lnCheck, tmCheck, minCheck, maxCheck);
     }
 
     public List<PlayerEntity> getPlayers() {
@@ -84,5 +91,45 @@ public class PlayerView implements Serializable {
 
     public PlayerService getService() {
         return service;
+    }
+
+    public boolean isFnCheck() {
+        return fnCheck;
+    }
+
+    public void setFnCheck(boolean fnCheck) {
+        this.fnCheck = fnCheck;
+    }
+
+    public boolean isLnCheck() {
+        return lnCheck;
+    }
+
+    public void setLnCheck(boolean lnCheck) {
+        this.lnCheck = lnCheck;
+    }
+
+    public boolean isTmCheck() {
+        return tmCheck;
+    }
+
+    public void setTmCheck(boolean tmCheck) {
+        this.tmCheck = tmCheck;
+    }
+
+    public boolean isMinCheck() {
+        return minCheck;
+    }
+
+    public void setMinCheck(boolean minCheck) {
+        this.minCheck = minCheck;
+    }
+
+    public boolean isMaxCheck() {
+        return maxCheck;
+    }
+
+    public void setMaxCheck(boolean maxCheck) {
+        this.maxCheck = maxCheck;
     }
 }

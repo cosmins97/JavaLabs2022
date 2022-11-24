@@ -46,7 +46,7 @@ public class PlayerService {
         this.teamRepo = new TeamRepository(em2);
 
         this.SearchMinAge = 1;
-        this.SearchMaxAge = 100;
+        this.SearchMaxAge = 1000;
         this.SearchTeamId = 0;
         //generatePlayers();
 
@@ -95,11 +95,43 @@ public class PlayerService {
     }
 
     public void setFilter(String searchFirstName, String searchLastName,
-                          int SearchTeamId, int SearchMinAge, int SearchMaxAge){
-        this.searchFirstName = searchFirstName;
-        this.searchLastName = searchLastName;
-        this.SearchMaxAge = SearchMaxAge;
-        this.SearchMinAge = SearchMinAge;
-        this.SearchTeamId = SearchTeamId;
+                          int SearchTeamId, int SearchMinAge, int SearchMaxAge,
+                          boolean fnCheck, boolean lnCheck, boolean tmCheck, boolean minCheck, boolean maxCheck){
+        if(fnCheck) {
+            this.searchFirstName = searchFirstName;
+        }
+        else{
+            this.searchFirstName = null;
+        }
+
+        if(lnCheck){
+            this.searchLastName = searchLastName;
+        }
+        else{
+            this.searchLastName = null;
+        }
+
+        if(tmCheck){
+            this.SearchTeamId = SearchTeamId;
+        }
+        else{
+            this.SearchTeamId = 0;
+        }
+
+        if(minCheck){
+            this.SearchMinAge = SearchMinAge;
+        }
+        else{
+            this.SearchMinAge = 0;
+        }
+
+        if(maxCheck){
+            this.SearchMaxAge = SearchMaxAge;
+        }
+        else{
+            this.SearchMaxAge = 1000;
+        }
+
+
     }
 }

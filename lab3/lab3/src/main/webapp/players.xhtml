@@ -22,12 +22,16 @@
    <p:dialog header="Add Filter" widgetVar="dlg1" minHeight="40" width="350" showEffect="fade" modal="true">
       <h:form>
          <h3>First Name: </h3> <p:inputText id="float-input1" value="#{playerView.searchFirstName}"/>
+         <p:toggleSwitch value="#{playerView.fnCheck}"/>
          <br/>
          <h3>Last Name: </h3> <p:inputText id="float-input2" value="#{playerView.searchLastName}"/>
+         <p:toggleSwitch value="#{playerView.lnCheck}"/>
          <br/>
          <h3>Age Min: </h3> <p:inputNumber id="input91" value="#{playerView.searchMinAge}" minValue="1" decimalPlaces="0" />
+         <p:toggleSwitch value="#{playerView.minCheck}"/>
          <br/>
          <h3>Age Max: </h3> <p:inputNumber id="input92" value="#{playerView.searchMaxAge}" minValue="1" decimalPlaces="0" />
+         <p:toggleSwitch value="#{playerView.maxCheck}"/>
          <br/>
          <h3>Team:</h3>
          <div class="field col-12 md:col-4">
@@ -36,6 +40,7 @@
                               itemLabel="#{team.name}" itemValue="#{team.id}" />
             </p:selectOneMenu>
          </div>
+         <p:toggleSwitch value="#{playerView.tmCheck}"/>
          <br/>
          <p:commandButton value="Apply Filter" icon="pi pi-check" actionListener="#{playerView.applyFilter}" action="players.xhtml?faces-redirect=true" />
       </h:form>
