@@ -88,3 +88,9 @@ Founding: Tue Nov 01 00:00:00 EET 2022
 CityId: 5
 
 
+Name: t7
+Id: 7
+Founding: Wed Nov 23 00:00:00 EET 2022
+CityId: 19
+
+

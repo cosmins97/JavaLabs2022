@@ -1,7 +1,9 @@
-package com.example.lab3;
+package com.example.lab3.views;
+
+import com.example.lab3.entities.TeamEntity;
+import com.example.lab3.services.TeamService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,7 +17,7 @@ import java.util.List;
 @Named("teamView")
 @ViewScoped
 public class TeamView implements Serializable {
-    private List<Team> teams;
+    private List<TeamEntity> teams;
 
     private String newTeamName;
     private int newTeamId;
@@ -38,7 +40,7 @@ public class TeamView implements Serializable {
         teams = service.getTeams();
     }
 
-    public List<Team> getTeams() {
+    public List<TeamEntity> getTeams() {
         return teams;
     }
 
@@ -47,28 +49,6 @@ public class TeamView implements Serializable {
     }
 
     public void addNewTeam(){
-        try {
-            String filePath = "E:\\facultate\\M2\\java2\\JavaLabs2022\\lab3\\lab3\\logFile.txt";
-            File myObj = new File(filePath);
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-
-            FileWriter myWriter = new FileWriter(filePath, true);
-
-            myWriter.write("Name: " + this.getNewTeamName() + "\n");
-            myWriter.write("Id: " + this.getNewTeamId() + "\n");
-            myWriter.write("Founding: " + this.getNewTeamDate() + "\n");
-            myWriter.write("CityId: " + this.getNewTeamCityId() + "\n");
-
-            myWriter.write("\n\n");
-
-            myWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         service.addNewTeam(this.getNewTeamName(), this.getNewTeamId(), this.getNewTeamDate(), this.getNewTeamCityId());
     }
 

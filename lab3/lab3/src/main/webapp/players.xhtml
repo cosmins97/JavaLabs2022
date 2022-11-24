@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+   <title>Players Page</title>
+</h:head>
+<h:body>
+   <h:outputText value="Players Page"
+                 style="font-size: xx-large"/>
+   <br/>
+   <br/>
+
+   <div class="card">
+      <p:commandButton value="Filter" type="button" icon="pi pi-external-link" onclick="PF('dlg1').show()"/>
+   </div>
+
+   <p:dialog header="Add Filter" widgetVar="dlg1" minHeight="40" width="350" showEffect="fade" modal="true">
+      <h:form>
+         <h3>First Name: </h3> <p:inputText id="float-input1" value="#{playerView.searchFirstName}"/>
+         <br/>
+         <h3>Last Name: </h3> <p:inputText id="float-input2" value="#{playerView.searchLastName}"/>
+         <br/>
+         <h3>Age Min: </h3> <p:inputNumber id="input91" value="#{playerView.searchMinAge}" minValue="1" decimalPlaces="0" />
+         <br/>
+         <h3>Age Max: </h3> <p:inputNumber id="input92" value="#{playerView.searchMaxAge}" minValue="1" decimalPlaces="0" />
+         <br/>
+         <h3>Team:</h3>
+         <div class="field col-12 md:col-4">
+            <p:selectOneMenu id="option" value="#{playerView.searchTeamId}">
+               <f:selectItems value="#{teamView.teams}" var="team"
+                              itemLabel="#{team.name}" itemValue="#{team.id}" />
+            </p:selectOneMenu>
+         </div>
+         <br/>
+         <p:commandButton value="Apply Filter" icon="pi pi-check" actionListener="#{playerView.applyFilter}" action="players.xhtml?faces-redirect=true" />
+      </h:form>
+   </p:dialog>
+
+   <p:dataTable id = "playerTable" var="player" value="#{playerView.players}" lazy="true">
+      <p:column headerText="Id">
+         <h:outputText value="#{player.id}" />
+      </p:column>
+
+      <p:column headerText="First Name">
+         <h:outputText value="#{player.first_name}" />
+      </p:column>
+
+      <p:column headerText="Last Name">
+         <h:outputText value="#{player.last_name}" />
+      </p:column>
+
+      <p:column headerText="Age">
+         <h:outputText value="#{player.age}" />
+      </p:column>
+
+      <p:column headerText="Position">
+         <h:outputText value="#{player.position}" />
+      </p:column>
+
+      <p:column headerText="Team">
+         <h:outputText value="#{player.team.name}" />
+      </p:column>
+   </p:dataTable>
+</h:body>
+</html>
