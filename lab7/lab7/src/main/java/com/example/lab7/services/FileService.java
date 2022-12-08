@@ -59,4 +59,9 @@ public class FileService {
         User author = this.userRepo.getByUsername(usr).get(0);
         return this.fileRepo.getByAuthor(author);
     }
+
+    public Document getByFilename(String name){
+        List<Document> d = this.fileRepo.getByFileName(name);
+        return d.get(0);
+    }
 }

@@ -11,6 +11,8 @@ import java.io.Serializable;
                 query = "select d from Document d"),
         @NamedQuery(name = "Document.getByAuthor",
                 query = "select d from Document d where d.user = :user"),
+        @NamedQuery(name = "Document.getByFileName",
+                query = "select d from Document d where d.name = :name"),
 })
 public class Document implements Serializable {
     @Id

@@ -23,6 +23,7 @@ public class UserRepository {
                 .getResultList();
     }
 
+    @Transactional
     public List<User> getByUsernamePassword(String usr, String pwd){
         return em.createNamedQuery("User.getByUsernameAndPassword")
                 .setParameter("usr", usr)
@@ -30,16 +31,19 @@ public class UserRepository {
                 .getResultList();
     }
 
+    @Transactional
     public List<User> getByUsername(String usr){
         return em.createNamedQuery("User.getByUsername")
                 .setParameter("usr", usr)
                 .getResultList();
     }
 
+    @Transactional
     public void add(User user){
         em.persist(user);
     }
 
+    @Transactional
     public void updateRole(int userId, int newRoleId){
         User u = em.find(User.class, userId);
         Role r = em.find(Role.class, newRoleId);

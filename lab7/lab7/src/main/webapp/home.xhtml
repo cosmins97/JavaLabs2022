@@ -36,7 +36,12 @@
                 </p:column>
 
                 <p:column headerText="Content">
-                    <h:outputText value="#{file.content}" />
+                    <h:form>
+                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                         icon="pi pi-arrow-down" styleClass="mr-2">
+                            <p:fileDownload value="#{fileView.getStreamedContent(file)}"/>
+                        </p:commandButton>
+                    </h:form>
                 </p:column>
 
             </p:dataTable>

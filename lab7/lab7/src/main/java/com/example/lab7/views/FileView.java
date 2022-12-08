@@ -4,6 +4,8 @@ import com.example.lab7.entities.Document;
 import com.example.lab7.entities.User;
 import com.example.lab7.services.FileService;
 import com.example.lab7.services.UserService;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.util.IOUtils;
 
@@ -12,8 +14,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -49,7 +53,6 @@ public class FileView implements Serializable {
 
     public void saveFile(){
 
-
         /* convert file from part to byte[] */
         try (InputStream input = newFileContent.getInputStream()) {
             byte[] file = IOUtils.toByteArray(input);
@@ -59,6 +62,18 @@ public class FileView implements Serializable {
         }
 
     }
+
+    public StreamedContent getStreamedContent(Document d){
+        ByteArrayInputStream file = new ByteArrayInputStream(d.getContent());
+        return DefaultStreamedContent.builder()
+                .name(d.getName() + ".txt")
+                .contentType("text")
+                .stream(() -> file)
+                .build();
+    }
+
+
+
 
     public List<Document> getAllFiles() {
         return allFiles;

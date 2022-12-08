@@ -32,4 +32,10 @@ public class FileRepository {
     public void add(Document doc){
         em.persist(doc);
     }
+
+    public List<Document> getByFileName(String name){
+        return em.createNamedQuery("Document.getByFilename")
+                .setParameter("name", name)
+                .getResultList();
+    }
 }
