@@ -43,6 +43,30 @@ public class FileService {
         fileRepo.add(doc);
     }
 
+    public int deleteFile(String id){
+        Document f = this.fileRepo.getById(id).get(0);
+
+        if(f != null){
+            this.fileRepo.delete(id);
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public void updateFile(String id, String username, byte[] file, String fileName){
+        Document f = this.fileRepo.getById(id).get(0);
+
+        f.setName(fileName);
+        f.setContent(file);
+
+        User u = this.userRepo.getByUsername(username).get(0);
+        f.setUser(u);
+
+        fileRepo.update(f);
+    }
+
     @Produces
     @SessionScoped
     public String generateRegistrationNumber(){

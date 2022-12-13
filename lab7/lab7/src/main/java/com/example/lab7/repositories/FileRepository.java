@@ -33,9 +33,25 @@ public class FileRepository {
         em.persist(doc);
     }
 
+    public List<Document> getById(String id){
+        return em.createNamedQuery("Document.getById")
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     public List<Document> getByFileName(String name){
         return em.createNamedQuery("Document.getByFilename")
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public void delete(String id){
+        int isSuccesful = em.createNamedQuery("Document.deleteById")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    public void update(Document d){
+        em.merge(d);
     }
 }
